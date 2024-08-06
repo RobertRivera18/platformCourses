@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
@@ -19,6 +20,7 @@ class CourseController extends Controller
         $courses = Course::where('user_id', auth()->id())->get();
         return view('instructor.courses.index', compact('courses'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -72,18 +74,25 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        $request->validate([
+        $data = $request->validate([
             'title' => 'required|max:255',
-            'slug' => 'required|max:255|unique:courses,slug,'.$course->id,
-            'summary'=>'required|max:1000',
-            'description'=>'required|500',
-            'category_id'=>'required|exists:categories,id',
-            'level_id'=>'required|exists:levels,id',
-            'price_id'=>'required|exists:price,id'
+            'slug' => 'required|max:255|unique:courses,slug,' . $course->id,
+            'summary' => 'nullable|max:1000',
+            'description' => 'nullable|max:500',
+            'category_id' => 'required|exists:categories,id',
+            'level_id' => 'required|exists:levels,id',
+            'price_id' => 'required|exists:prices,id'
 
-            
         ]);
-        return $request->all();
+        if ($request->hasFile('image')) {
+            if ($course->image_path) {
+                Storage::delete($course->image_path);
+            }
+            $data['image_path'] = Storage::put('courses/image', $request->file('image'));
+        }
+        $course->update($data);
+        session()->flash('flash.banner','El curso se Actualizó con exito');
+        return redirect()->route('instructor.courses.edit', $course);
     }
 
     /**
@@ -92,5 +101,13 @@ class CourseController extends Controller
     public function destroy(Course $course)
     {
         //
+    }
+
+    public function video(Course $course){
+        return view('instructor.courses.video',compact('course'));
+    }
+
+    public function goals(Course $course){
+      return view('instructor.courses.video',compact('course'));
     }
 }
