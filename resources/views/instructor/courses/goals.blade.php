@@ -8,7 +8,7 @@
 
     <x-container class="py-8">
         <x-instructor.courses-sidebar :course="$course">
-           
+            @livewire('instructor.courses.goals',['course'=>$course])
         </x-instructor.courses-sidebar>
     </x-container>
 </x-instructor-layout>

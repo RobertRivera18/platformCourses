@@ -20,7 +20,7 @@ class CourseController extends Controller
         $courses = Course::where('user_id', auth()->id())->get();
         return view('instructor.courses.index', compact('courses'));
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -91,7 +91,7 @@ class CourseController extends Controller
             $data['image_path'] = Storage::put('courses/image', $request->file('image'));
         }
         $course->update($data);
-        session()->flash('flash.banner','El curso se Actualizó con exito');
+        session()->flash('flash.banner', 'El curso se Actualizó con exito');
         return redirect()->route('instructor.courses.edit', $course);
     }
 
@@ -103,11 +103,13 @@ class CourseController extends Controller
         //
     }
 
-    public function video(Course $course){
-        return view('instructor.courses.video',compact('course'));
+    public function video(Course $course)
+    {
+        return view('instructor.courses.video', compact('course'));
     }
 
-    public function goals(Course $course){
-      return view('instructor.courses.video',compact('course'));
+    public function goals(Course $course)
+    {
+        return view('instructor.courses.goals', compact('course'));
     }
 }
