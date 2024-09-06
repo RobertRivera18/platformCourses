@@ -65,4 +65,11 @@ class Course extends Model
     public function goals(){
         return $this->hasMany(Goal::class);
     }
+
+    public function requeriments(){
+        return $this->hasMany(Requeriment::class);
+    }
+    public function sections(){
+        return $this->hasMany(Section::class);
+    }
 }

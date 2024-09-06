@@ -18,6 +18,16 @@
     'url'=>route('instructor.courses.goals',$course),
     'active'=>request()->routeIs('instructor.courses.goals')
 ],
+[ 
+    'name'=>'Requerimientos del Curso',
+    'url'=>route('instructor.courses.requeriments',$course),
+    'active'=>request()->routeIs('instructor.courses.requeriments')
+],
+[ 
+    'name'=>'Curriculum',
+    'url'=>route('instructor.courses.curriculum',$course),
+    'active'=>request()->routeIs('instructor.courses.curriculum')
+],
 
     ]
 @endphp
