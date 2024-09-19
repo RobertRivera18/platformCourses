@@ -11,4 +11,7 @@
              @livewire('instructor.courses.manage-section',['course'=>$course])
         </x-instructor.courses-sidebar>
     </x-container>
+    @push('js')
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+    @endpush
 </x-instructor-layout>

@@ -19,5 +19,9 @@ class Section extends Model
     public function course(){
         return $this-> belongsTo(Course::class);
     }
+
+    public function lessons(){
+         return $this->hasMany(Lesson::class);
+    }
     use HasFactory;
 }

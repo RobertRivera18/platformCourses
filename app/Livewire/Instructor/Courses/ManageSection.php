@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Instructor\Courses;
 
+use App\Models\Lesson;
 use App\Models\Section;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ManageSection extends Component
@@ -17,17 +19,30 @@ class ManageSection extends Component
     ];
 
     public $sectionPositionCreate = [];
+    public $orderLessons;
+
+
+
 
     public function mount()
     {
         $this->getSections();
     }
 
+
+    #[On('refreshOrdenLessons')]
     public function getSections()
     {
         $this->sections = Section::where('course_id', $this->course->id)
-            ->orderBy('position', 'desc')
+            ->with(['lessons' => function ($query) {
+                $query->orderBy('position', 'asc');
+            }])
+            ->orderBy('position', 'asc')
             ->get();
+        $this->orderLessons = $this->sections
+            ->pluck('lessons')
+             ->collapse()
+             ->pluck('id');
     }
     public function store()
     {
@@ -100,6 +115,17 @@ class ManageSection extends Component
         foreach ($sorts as $position => $sectionId) {
             Section::find($sectionId)->update([
                 'position' => $position + 1
+            ]);
+        }
+        $this->getSections();
+    }
+
+    #[On('sortLessons')]
+    public function sortLessons($sorts,$sectionId){
+        foreach ($sorts as $position => $lessonId) {
+            Lesson::find($lessonId)->update([
+                'position' => $position + 1,
+                'section_id'=>$sectionId
             ]);
         }
         $this->getSections();
