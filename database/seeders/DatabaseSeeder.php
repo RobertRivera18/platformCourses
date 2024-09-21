@@ -2,9 +2,14 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Goal;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
+use App\Models\Course;
+use App\Models\Requeriment;
 use Illuminate\Database\Seeder;
+use Database\Factories\GoalFactory;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,6 +20,9 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        Storage::deleteDirectory('courses');
+        Storage::makeDirectory('courses/images');
+
         User::factory()->create([
             'name' => 'Robert Rivera Castañeda',
             'email' => 'rxrc1819@gmail.com',
@@ -23,7 +31,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategorySeeder::class,
             LevelSeeder::class,
-            PriceSeeder::class
+            PriceSeeder::class,
+            CourseSeeder::class
+
         ]);
+      
     }
 }

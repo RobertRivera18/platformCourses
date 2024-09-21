@@ -44,7 +44,7 @@ class Course extends Model
     }
     public function teacher()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
 
     public function level()
@@ -65,6 +65,7 @@ class Course extends Model
     public function goals(){
         return $this->hasMany(Goal::class);
     }
+
 
     public function requeriments(){
         return $this->hasMany(Requeriment::class);

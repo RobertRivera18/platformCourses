@@ -1,10 +1,10 @@
 @php
 $links=[
 [
-'name'=>'Dashboard',
-'route'=>'#',
-'active'=>true
-]
+'name'=>'Cursos',
+'route'=>route('courses.index'),
+'active'=>request()->routeIs('courses.*')
+],
 ]
 @endphp
 

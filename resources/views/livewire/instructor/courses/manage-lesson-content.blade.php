@@ -109,35 +109,16 @@
     <hr>
     <div>
         <h2 class="font-semibold text-lg mb-1">Descripción de la Lección</h2>
+
         @if ($editDescription)
 
         <form wire:submit="saveDescription">
-            <div x-data="{
-            content:@entangle('description'),
-            }
-            " 
-            
-            x-init="
-                     ClassicEditor
-                      .create($refs.editor)
-                      .then(editor => {
-                      editor.setData(content);
-
-                      editor.model.document.on('change:data', () => {
-                         content: editor.getData();
-                      });
-                      })
-                      .catch(error => {
-                      });
-                       ">
-                <x-textarea x-ref="editor" wire:model="description">
-                    {{$description}}
-                </x-textarea>
-            </div>
-
+            <x-ckeditor wire:model="description" />
 
             <div class="flex justify-end mt-4">
-                <x-button>Actualizar</x-button>
+                <x-button>
+                    Actualizar
+                </x-button>
             </div>
         </form>
         @else
@@ -152,11 +133,10 @@
     </div>
 
 
-    <script>
-        ClassicEditor
-         .create(document.querySelector('#editor'))
-         .catch(error => {
-         })
-    </script>
+    <hr>
+    <div class="md:space-y-2">
+        <x-toggle label="Publicado" wire:model="is_published" />
+        <x-toggle label="Vista Previa" wire:model="is_preview" />
+    </div>
 
 </div>
