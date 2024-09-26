@@ -1,5 +1,5 @@
 <x-app-layout>
-    <figure class="mb-10">
+    <figure class="mb-8">
         <img class="w-full aspect-[3/1] object-cover object-center"
             src="{{asset('img/welcome/laptop-2620118_1280.jpg')}}" alt="">
     </figure>

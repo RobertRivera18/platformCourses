@@ -24,7 +24,8 @@ class CourseFactory extends Factory
         return [
             'title' =>$title,
             'slug'=>Str::slug($title),
-            'slug' => $this->faker->slug,
+            'summary'=>$this->faker->paragraph,
+            'description'=>$this->faker->text(2000),
             'status' => 3,
             'image_path' =>'courses/images/'. $this->faker->image('public/storage/courses/images', 640, 480, null,false),
             'user_id' => 1,
