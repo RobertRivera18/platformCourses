@@ -2,7 +2,7 @@
     <x-container class="mt-12">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div class="cols-span-1 lg:col-span-2 order-2 lg:order-1">
-                <div class="mb-8">
+                <div class="mb-6">
                     <h1 class="text-3xl font-semibold mb-1">
                         {{$course->title}}
                     </h1>
@@ -16,7 +16,7 @@
                 </div>
                 {{-- Objetivos --}}
 
-                <div class="mb-8">
+                <div class="mb-4">
                     <h2 class="text-xl font-semibold mb-4">Objetivos del Curso</h2>
                     <div class="card">
                         <ul class="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -31,7 +31,7 @@
                 </div>
                 {{-- Lecciones --}}
                 <div class="mb-8">
-                    <h2 class="text-xl font-semibold mb-4">Temario</h2>
+                    <h2 class="text-xl font-semibold mb-2">Temario</h2>
                     <ul class="space-y-4">
                         @foreach($course->sections as $section)
                         <li x-data="{
@@ -90,6 +90,21 @@
             <div class="col-span-1 order-1 lg:order-2">
                 <div class="card">
                     <div class="mb-4">
+                    
+                        @can('enrolled',$course)
+
+                        <p class="flex items-center mb-1">
+                            <svg class="fill-current h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V7h2v4z"/>
+                             </svg>
+                             <span class="font-semibold">
+                                 Adquirido el {{$course->dateOfAcquisition}}
+                             </span>
+
+                        </p>
+                        <a class="btn btn-red text-center block w-full"
+                            href="{{route('courses.status',$course)}}">Continuar con el Curso</a>
+                        @else
                         <p class="text-2xl  text-center font-semibold mb-2">
                             @if ($course->price->value ==0)
                             <span class=" text-green-500 ">Gratis</span>
@@ -99,15 +114,17 @@
                             </span>
                             @endif
                         </p>
-                        <button class="btn btn-blue w-full mb-2">Agregar al Carrito</button>
-                        <button class="btn btn-red w-full ">Comprar Ahora</button>
+                        @livewire('course-enrolled',['course'=>$course])
+                        @endcan
+
 
                     </div>
                     <div>
                         <p class="font-semibold text-lg">Detalles del Curso</p>
                         <ul class="space-y-1">
                             <li>
-                                <i class="far fa-calendar-alt inline-block w-6"></i> Ultima Actualización {{$course->updated_at->format('d/m/Y')}}
+                                <i class="far fa-calendar-alt inline-block w-6"></i> Ultima Actualización
+                                {{$course->updated_at->format('d/m/Y')}}
                             </li>
 
                             <li>
@@ -117,7 +134,7 @@
                                 <i class="fa fa-chart-line inline-block w-6"></i> Nivel {{$course->level->name}}
                             </li>
                             <li>
-                                <i class="fas fa-star inline-block w-6"></i> Calificación: 5 
+                                <i class="fas fa-star inline-block w-6"></i> Calificación: 5
                             </li>
                             <li>
                                 <i class="fas fa-infinity inline-block w-6"></i> Acceso de por Vida

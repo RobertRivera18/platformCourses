@@ -115,7 +115,7 @@
                                     </span>
                                 </div>
                                 <p class="font-semibold mb-2">
-                                @if ($course->price->value ==0)
+                                @if ($course->price->value == 0)
                                 <span class="bg-blue-100 text-green-500 text-sm font-medium me-2 px-2.5 py-0.5 rounded ">Gratis</span>
                                 @else
                                 <span class="bg-blue-100 text-gray-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded">${{number_format($course->price->value,2)}}</span>

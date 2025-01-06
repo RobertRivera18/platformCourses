@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Enums\CourseStatus;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Course extends Model
 {
@@ -42,10 +43,25 @@ class Course extends Model
             }
         );
     }
+
+    protected function dateOfAcquisition(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+               return  now()->parse(DB::table('course_user')
+               ->where('course_id',$this->id)
+               ->where('user_id',auth()->id())
+               ->first()
+               ->created_at)->format('d/m/Y');
+            }
+        );
+    }
     public function teacher()
     {
         return $this->belongsTo(User::class,'user_id');
     }
+
+   
 
     public function level()
     {
@@ -72,5 +88,11 @@ class Course extends Model
     }
     public function sections(){
         return $this->hasMany(Section::class);
+    }
+    //Relacion mucho a muchos 
+
+    public function students(){
+        return $this->belongsToMany(User::class,'course_user','course_id','user_id')
+                    ->withTimestamps();
     }
 }

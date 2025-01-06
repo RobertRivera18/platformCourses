@@ -8,9 +8,6 @@ $links=[
 ]
 @endphp
 
-
-
-
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -35,9 +32,27 @@ $links=[
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+        
+                <div class="relative"
+                 x-data="{
+                   count:{{Cart::instance('shopping')->count()}}
+                }"
+                x-on:cart-updated.window="count= $event.detail[0]"
+                >
+                    <a href="{{route('cart.index')}}">
+                        <i class="fas fa-cart-shopping text-2xl text-gray-600"></i>
+                        <span 
+                         x-show="count"
+                         x-text="count"
+                        class="absolute -top-2 -right-3 inline-flex items-center justify-center py-1 w-6 text-xs font-bold text-blue-100 bg-blue-500 rounded-full">
+
+                        </span>
+                    </a>
+                </div>
+
 
                 <!-- Settings Dropdown -->
-                <div class="ms-3 relative">
+                <div class="ms-4 relative">
                     @auth
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
@@ -94,7 +109,6 @@ $links=[
                         </x-slot>
 
                         <x-slot name="content">
-
                             <x-dropdown-link href="{{ route('login') }}">
                                 Iniciar Sesion
                             </x-dropdown-link>
