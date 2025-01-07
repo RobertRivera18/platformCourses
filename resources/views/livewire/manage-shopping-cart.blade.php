@@ -1,6 +1,6 @@
 <div>
     <h2 class="text-xl font-semibold mb-2">Carrito de Compras</h2>
-    
+
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
         <div class="lg:col-span-3">
             <div class="mb-2">
@@ -22,13 +22,12 @@
                                     {{$item->options->teacher}}
                                 </p>
                                 <p class="font-semibold">
-                                  ${{number_format($item->price ,2)}}
+                                    ${{number_format($item->price ,2)}}
                                 </p>
                             </div>
 
                             <div class="lg:ml-6 text-sm">
-                                <button
-                                wire:click="remove('{{$item->rowId}}')"
+                                <button wire:click="remove('{{$item->rowId}}')"
                                     class="block w-full lg:text-right font-bold text-red-600 disabled:text-red-300">
                                     Eliminar
                                 </button>
@@ -73,13 +72,18 @@
                         </span>
                     </label>
 
-                    <form  action="{{route('pay')}}">
-                        <button wire:loading.attr="disabled" wire:loading.class="!cursor-wait" type="submit" class="outline-none inline-flex justify-center items-center group transition-all ease-in duration-150 focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-80 disabled:cursor-not-allowed rounded gap-x-2 text-sm px-4 py-2     ring-red-500 text-white bg-red-500 hover:bg-red-600 hover:ring-red-600
-                         w-full" x-bind:disabled="!show" disabled="disabled">
-                            Proceder con el pago
-                        </button>
 
-                    </form>
+
+                    @if (Cart::instance('shopping')->count())
+                    <a href="{{route('checkout.index')}}" wire:loading.attr="disabled" wire:loading.class="!cursor-wait"
+                        type="submit" class="outline-none inline-flex justify-center items-center group transition-all ease-in duration-150 focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-80 disabled:cursor-not-allowed rounded gap-x-2 text-sm px-4 py-2     ring-red-500 text-white bg-red-500 hover:bg-red-600 hover:ring-red-600
+                    w-full" x-bind:disabled="!show" disabled="disabled">
+                        Proceder con el pago
+                    </a>
+                    @else
+
+                    @endif
+
 
                 </div>
                 <div class="flex justify-center items-center mt-5">
@@ -88,5 +92,5 @@
             </div>
         </div>
     </div>
-    
+
 </div>
