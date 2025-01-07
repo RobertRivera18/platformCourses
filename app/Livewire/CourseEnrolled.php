@@ -23,6 +23,13 @@ class CourseEnrolled extends Component
                 'teacher' => $this->course->teacher->name
             ]
         ]);
+
+        if (auth()->check()) {
+            Cart::store(auth()->id());
+        }
+
+
+
         $this->dispatch('cart-updated', Cart::count());
     }
     public function removeCart()
@@ -33,6 +40,11 @@ class CourseEnrolled extends Component
             Cart::remove($itemCart->rowId);
         }
         $this->dispatch('cart-updated', Cart::count());
+        
+        if (auth()->check()) {
+            Cart::store(auth()->id());
+        }
+       
     }
 
     public function buyNow()

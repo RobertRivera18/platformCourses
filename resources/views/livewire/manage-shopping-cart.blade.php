@@ -39,11 +39,14 @@
                     </ul>
                 </div>
             </div>
+
+            @if (Cart::instance('shopping')->count())
             <button wire:click="destroy" class="font-semibold text-red-500 disabled:text-red-300 text-sm">
                 <i class="fas fa-trash-alt mr-2"></i>
                 Limpiar carrito de compras
-
             </button>
+            @endif
+
         </div>
 
         <div class="lg:col-span-2">
@@ -81,7 +84,9 @@
                         Proceder con el pago
                     </a>
                     @else
-
+                    <button disabled class="btn btn-red w-full text-center disabled:opacity-50">
+                        Proceder con el pago
+                    </button>
                     @endif
 
 

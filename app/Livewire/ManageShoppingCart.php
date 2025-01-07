@@ -12,7 +12,14 @@ class ManageShoppingCart extends Component
     {
         Cart::instance('shopping');
         Cart::remove($rowId);
-        $this->dispatch('cart-updated', Cart::content());
+        $this->dispatch('cart-updated', Cart::count());
+    }
+    public function destroy()
+    {
+        Cart::instance('shopping');
+        Cart::destroy();
+        
+
     }
 
 
