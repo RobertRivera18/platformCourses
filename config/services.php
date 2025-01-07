@@ -40,7 +40,9 @@ return [
 
     'paypal'=>[
        'client_id'=>ENV('PAYPAL_CLIENT_ID'),
-       'secret_id'=>ENV('PAYPAL_CLIENT_SECRET')
+       'secret_id'=>ENV('PAYPAL_SECRET'),
+       'url'=>ENV('PAYPAL_URL'),
+       
 
     ]
 
