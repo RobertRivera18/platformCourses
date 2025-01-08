@@ -38,12 +38,10 @@ return [
         'key' => ENV('YOUTUBE_KEY'),
     ],
 
-    'paypal'=>[
-       'client_id'=>ENV('PAYPAL_CLIENT_ID'),
-       'secret_id'=>ENV('PAYPAL_SECRET'),
-       'url'=>ENV('PAYPAL_URL'),
-       
-
-    ]
+   'paypal' => [
+    'client_id' => env('PAYPAL_CLIENT_ID'),
+    'secret_id' => env('PAYPAL_SECRET'),
+    'url' => env('PAYPAL_URL'),
+],
 
 ];

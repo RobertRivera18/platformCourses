@@ -79,20 +79,30 @@
     @push('js')
     <script src="https://www.paypal.com/sdk/js?client-id={{config('services.paypal.client_id')}}&currency=USD"
         data-sdk-integration-source="developer-studio"></script>
-    <script>
-        paypal.Buttons({
-           createOrder(){
-            return axios.post("{{route('checkout.createPaypalOrder')}}")
-            .then(resp=>{
-                return resp.data.id;
-            }).catch(err=>{
-                console.log(err)
-            });
-           },
-           onApprove(data){
-
-           },
-            }).render('#paypal-button-container')
-    </script>
+        <script>
+            paypal.Buttons({
+                createOrder() {
+                    return axios.post("{{ route('checkout.createPaypalOrder') }}")
+                        .then(resp => resp.data.id)
+                        .catch(err => {
+                            console.error("Error creando la orden de PayPal:", err);
+                            alert("Hubo un problema al procesar tu pedido. Por favor, intenta de nuevo.");
+                        });
+                },
+                onApprove(data) {
+                    return axios.post("{{ route('checkout.capturePaypalOrder') }}", {
+                        orderID: data.orderID
+                    })
+                    .then(() => {
+                        window.location.href = "{{ route('gracias') }}";
+                    })
+                    .catch(err => {
+                        console.error("Error capturando la orden de PayPal:", err);
+                        alert("No se pudo completar la transacción. Por favor, contacta soporte.");
+                    });
+                }
+            }).render('#paypal-button-container');
+        </script>
+        
     @endpush
 </x-app-layout>
