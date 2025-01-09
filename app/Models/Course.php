@@ -35,6 +35,11 @@ class Course extends Model
         
     ];
 
+    public function getRouteKeyName():string
+    {
+        return 'slug';
+    }
+
     protected function image(): Attribute
     {
         return new Attribute(

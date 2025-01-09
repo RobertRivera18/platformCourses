@@ -88,6 +88,10 @@ $links=[
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 
+                            <x-dropdown-link href="{{ route('courses.myCourses') }}">
+                                Mis cursos
+                            </x-dropdown-link>
+
                             <div class="border-t border-gray-200"></div>
 
                             <!-- Authentication -->
@@ -181,6 +185,9 @@ $links=[
                 <!-- Account Management -->
                 <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                     {{ __('Profile') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('courses.myCourses') }}" :active="request()->routeIs('courses.myCourses')">
+                    Mis cursos
                 </x-responsive-nav-link>
 
 

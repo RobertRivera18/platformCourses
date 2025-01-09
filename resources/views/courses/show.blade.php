@@ -52,7 +52,7 @@
                                     <ul>
                                         @foreach($section->lessons as $lesson)
                                         <li>
-                                            <a class="flex" href="">
+                                            <a href="{{route('courses.status',[$course,$lesson])}}" class="flex" href="">
                                                 <i class="far fa-play-circle text-blue-500 mt-0.5 mr-2"></i>
                                                 <span
                                                     class="font-semibold text-gray-600 hover:text-blue-800 text-sm">{{$lesson->name}}</span>
@@ -88,60 +88,62 @@
             </div>
 
             <div class="col-span-1 order-1 lg:order-2">
-                <div class="card">
-                    <div class="mb-4">
-                    
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden p-6">
+                    <div class="mb-6">
                         @can('enrolled',$course)
-
-                        <p class="flex items-center mb-1">
-                            <svg class="fill-current h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V7h2v4z"/>
-                             </svg>
-                             <span class="font-semibold">
-                                 Adquirido el {{$course->dateOfAcquisition}}
-                             </span>
-
+                        <!-- Detalles si el curso ya está adquirido -->
+                        <p class="flex items-center mb-2 text-gray-700">
+                            <svg class="fill-current h-5 w-5 text-blue-500 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V7h2v4z" />
+                            </svg>
+                            <span class="font-semibold">Adquirido el {{$course->dateOfAcquisition}}</span>
                         </p>
-                        <a class="btn btn-red text-center block w-full"
-                            href="{{route('courses.status',$course)}}">Continuar con el Curso</a>
+                        <a class="w-full inline-block text-center py-3 px-4 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            href="{{route('courses.status',$course)}}">
+                            Continuar con el Curso
+                        </a>
                         @else
-                        <p class="text-2xl  text-center font-semibold mb-2">
-                            @if ($course->price->value ==0)
-                            <span class=" text-green-500 ">Gratis</span>
+                        <!-- Detalles si el curso no ha sido adquirido -->
+                        <p class="text-2xl font-semibold text-center mb-4">
+                            @if ($course->price->value == 0)
+                            <span class="text-green-500">Gratis</span>
                             @else
-                            <span class=" text-gray-800">
-                                ${{number_format($course->price->value,2)}}
-                            </span>
+                            <span class="text-gray-800">${{ number_format($course->price->value, 2) }}</span>
                             @endif
                         </p>
-                        @livewire('course-enrolled',['course'=>$course])
+                        @livewire('course-enrolled', ['course' => $course])
                         @endcan
-
-
                     </div>
-                    <div>
-                        <p class="font-semibold text-lg">Detalles del Curso</p>
-                        <ul class="space-y-1">
-                            <li>
-                                <i class="far fa-calendar-alt inline-block w-6"></i> Ultima Actualización
-                                {{$course->updated_at->format('d/m/Y')}}
-                            </li>
 
-                            <li>
-                                <i class="fas fa-clock inline-block w-6"></i> Duración: 120 Horas
+                    <div>
+                        <p class="font-semibold text-lg text-gray-800 mb-2">Detalles del Curso</p>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-center">
+                                <i class="far fa-calendar-alt w-6 text-gray-500"></i>
+                                <span>Última Actualización: {{$course->updated_at->format('d/m/Y')}}</span>
                             </li>
-                            <li>
-                                <i class="fa fa-chart-line inline-block w-6"></i> Nivel {{$course->level->name}}
+                            <li class="flex items-center">
+                                <i class="fas fa-clock w-6 text-gray-500"></i>
+                                <span>Duración: 120 Horas</span>
                             </li>
-                            <li>
-                                <i class="fas fa-star inline-block w-6"></i> Calificación: 5
+                            <li class="flex items-center">
+                                <i class="fa fa-chart-line w-6 text-gray-500"></i>
+                                <span>Nivel: {{$course->level->name}}</span>
                             </li>
-                            <li>
-                                <i class="fas fa-infinity inline-block w-6"></i> Acceso de por Vida
+                            <li class="flex items-center">
+                                <i class="fas fa-star w-6 text-gray-500"></i>
+                                <span>Calificación: 5</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-infinity w-6 text-gray-500"></i>
+                                <span>Acceso de por Vida</span>
                             </li>
                         </ul>
                     </div>
                 </div>
+
 
 
             </div>
