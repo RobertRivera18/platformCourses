@@ -26,8 +26,21 @@ class CourseController extends Controller
         return view('courses.my-courses', compact('courses'));
     }
 
-    public function status(Course $course,  $lesson = null)
+    public function status(Course $course, Lesson $lesson = null)
     {
-        return view('courses.status');
+        if (!$lesson) {
+            $course->load(['sections' => function ($query) {
+                $query->orderBy('position', 'asc')
+                    ->with('lessons', function ($query) {
+                        $query->orderBy('position', 'asc')
+                            ->where('is_published', true);
+                    });
+            }]);
+
+            $lesson = $course->sections->pluck('lessons')->collapse()->first();
+            return redirect()->route('courses.status', [$course, $lesson]);
+        }
+    
+        return view('courses.status', compact('course','lesson'));
     }
 }
