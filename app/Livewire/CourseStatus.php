@@ -7,6 +7,7 @@ use Livewire\Component;
 class CourseStatus extends Component
 {
     public $course;
+    public $sections;
     public $lessons;
     public $current;
 

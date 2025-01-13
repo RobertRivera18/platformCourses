@@ -30,14 +30,6 @@ class CourseController extends Controller
 
     public function status(Course $course, Lesson $lesson = null)
     {
-        //Recupera las lecciones en orden
-        // $course->load(['sections' => function ($query) {
-        //     $query->orderBy('position', 'asc')
-        //         ->with('lessons', function ($query) {
-        //             $query->orderBy('position', 'asc')
-        //                 ->where('is_published', true);
-        //         });
-        // }]);
 
         $sections = Section::where('course_id', $course->id)
             ->whereHas('lessons', function ($query) {
@@ -49,8 +41,7 @@ class CourseController extends Controller
                     })
                     ->orderBy('position', 'asc')->get();
 
-        return $sections;
-        $lessons = $course->sections->pluck('lessons')->collapse();
+        $lessons = $sections->pluck('lessons')->collapse();
 
 
 
@@ -88,6 +79,6 @@ class CourseController extends Controller
             ]);
         }
 
-        return view('courses.status', compact('course', 'lessons', 'lesson'));
+        return view('courses.status', compact('course','sections', 'lessons', 'lesson'));
     }
 }
