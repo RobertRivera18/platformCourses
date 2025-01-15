@@ -3,7 +3,7 @@
     <x-container class="mt-8">
         @livewire('course-status',
         ['course' => $course,
-        'lessons' => $lessons->pluck('id'),
+        'lessons' => $lessons,
         'sections'=>$sections->toArray(),
         'current'=> $lesson
         ])
