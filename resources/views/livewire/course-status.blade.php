@@ -1,12 +1,51 @@
 <div>
-    <div class="grid grid-cols-3 gap-6">
 
-        <div class="col-span-2">
+    @push('css')
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    @endpush
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-            <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/{{$current->video_path}}"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div class="col-span-2 lg:col-span-2">
+
+
+            @if (Gate::allows('enrolled',$course)||$current->is_preview||$course->price->value==0)
+            <div wire:ignore>
+                @if ($current->platform==1)
+
+                <video id="player" playsinline controls data-poster="/path/to/poster.jpg">
+                    <source src="{{Storage::url($current->video_path)}}" type="video/mp4">
+                </video>
+                @else
+
+
+                <div class="plyr__video-embed" id="player">
+                    <iframe src="https://www.youtube.com/embed/{{$current->video_path}}" allowfullscreen
+                        allowtransparency allow="autoplay"></iframe>
+                </div>
+                @endif
+            </div>
+
+            @else
+
+            <div class="relative">
+                <figure>
+                    <img class="w-full aspect-video object-cover object-center" src="{{$current->image}}" alt="">
+                </figure>
+
+                <div
+                    class="absolute inset-0 bg-black bg-opacity-40 sm:px-24 flex flex-col justify-center items-center space-y-6 md:space-y-8 lg:space-y-10 text-white">
+                    <p class="hidden md:block uppercase text-3xl font-mono font-bold text-center">Adquiere este
+                        curso para tener acceso a todas las lecciones</p>
+
+                    <i class="fas fa-unlock-alt text-5xl"></i>
+
+                    <a href="{{route('courses.show',$course)}}" class="btn btn-red" data-turbo="false">
+                        <span class="text-sm sm:text-base">Comprar curso</span>
+                    </a>
+                </div>
+            </div>
+            @endif
+
             <h1 class="text-3xl font-semibold mt-4">
                 {{$lessons->pluck('id')->search($current->id)+1}}.
                 {{$current->name}}</h1>
@@ -33,8 +72,8 @@
             </div>
         </div>
 
-        <aside class="col-span-1">
-            <div class="card">
+        <div class="col-span-1">
+            <aside class="card mb-4">
                 <h1 class=" leading-8 text-2xl text-center mb-4">
                     <a class="hover:text-blue-600 " href="{{route('courses.show',$course)}}">
                         {{$course->title}}
@@ -71,13 +110,13 @@
                 {{--Secciones---}}
                 <ul class="space-y-5 text-gray-600">
                     @foreach ($sections as $section)
-                    <li x-data={open:false}>
+                    <li x-data="{open:'{{$section['id']==$current->section_id}}'}">
                         <button class="text-left flex justify-between" x-on:click="open=!open">
                             <span>{{$section['name']}}</span>
-                            <i class="mt-1 fas fa-angle-down"></i>
+                            <i class="mt-1 fas" x-bind:class="open ? 'fa-angle-up':'fa-angle-down'"></i>
                         </button>
                         <ul class="space-y-1 mt-2" x-show="open" x-cloak>
-                            <li >
+                            <li>
                                 @foreach ($section['lessons'] as $lesson)
                             <li>
                                 <a class="w-full flex" href="{{route('courses.status',[$course,$lesson['slug']])}}">
@@ -94,7 +133,38 @@
                 </li>
                 @endforeach
                 </ul>
-            </div>
-        </aside>
+            </aside>
+
+            <x-button  wire:click="$set('review.open',true)"
+            class="w-full flex justify-center"
+            >Calificar este Curso
+        </x-button>
+        </div>
     </div>
+
+
+
+    <x-dialog-modal wire:model="review.open">
+        <x-slot name="title">
+            <h2>Tu opinion es importante!</h2>
+        </x-slot>
+        <x-slot name="content"></x-slot>
+        <x-slot name="footer"></x-slot>
+
+    </x-dialog-modal>
+
+    @push('js')
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+
+    <script>
+        const player = new Plyr('#player');
+        player.on('ready', (event) => {
+        player.play();
+});
+
+player.on('ended', (event) => {
+      @this.call('completedLesson')
+});
+    </script>
+    @endpush
 </div>
