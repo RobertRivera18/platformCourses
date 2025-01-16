@@ -71,13 +71,13 @@
                 {{--Secciones---}}
                 <ul class="space-y-5 text-gray-600">
                     @foreach ($sections as $section)
-                    <li>
-                        <button class="text-left flex justify-between">
+                    <li x-data={open:false}>
+                        <button class="text-left flex justify-between" x-on:click="open=!open">
                             <span>{{$section['name']}}</span>
                             <i class="mt-1 fas fa-angle-down"></i>
                         </button>
-                        <ul class="space-y-1 mt-2">
-                            <li>
+                        <ul class="space-y-1 mt-2" x-show="open" x-cloak>
+                            <li >
                                 @foreach ($section['lessons'] as $lesson)
                             <li>
                                 <a class="w-full flex" href="{{route('courses.status',[$course,$lesson['slug']])}}">
