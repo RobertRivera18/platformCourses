@@ -32,10 +32,10 @@ class Course extends Model
 
     protected $casts = [
         'status' => CourseStatus::class,
-        
+
     ];
 
-    public function getRouteKeyName():string
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }
@@ -49,24 +49,34 @@ class Course extends Model
         );
     }
 
+
+    protected function rating(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                return $this->reviews->count() ? round($this->reviews->avg('rating'), 1) : 5;
+            }
+        );
+    }
+
     protected function dateOfAcquisition(): Attribute
     {
         return new Attribute(
             get: function () {
-               return  now()->parse(DB::table('course_user')
-               ->where('course_id',$this->id)
-               ->where('user_id',auth()->id())
-               ->first()
-               ->created_at)->format('d/m/Y');
+                return  now()->parse(DB::table('course_user')
+                    ->where('course_id', $this->id)
+                    ->where('user_id', auth()->id())
+                    ->first()
+                    ->created_at)->format('d/m/Y');
             }
         );
     }
     public function teacher()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-   
+
 
     public function level()
     {
@@ -83,21 +93,30 @@ class Course extends Model
         return $this->belongsTo(Price::class);
     }
 
-    public function goals(){
+    public function goals()
+    {
         return $this->hasMany(Goal::class);
     }
 
 
-    public function requeriments(){
+    public function requeriments()
+    {
         return $this->hasMany(Requeriment::class);
     }
-    public function sections(){
+    public function sections()
+    {
         return $this->hasMany(Section::class);
     }
     //Relacion mucho a muchos 
 
-    public function students(){
-        return $this->belongsToMany(User::class,'course_user','course_id','user_id')
-                    ->withTimestamps();
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id')
+            ->withTimestamps();
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 }

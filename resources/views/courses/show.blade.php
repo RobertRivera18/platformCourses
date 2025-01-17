@@ -85,6 +85,10 @@
                         {!!$course->description!!}
                     </div>
                 </div>
+
+                <div>
+                    @livewire('manage-reviews', ['course' => $course], key('manage-review'))
+                </div>
             </div>
 
             <div class="col-span-1 order-1 lg:order-2">

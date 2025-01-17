@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Review;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -16,8 +17,8 @@ class CourseStatus extends Component
     public $advance;
     public $review = [
         'open' => false,
-        'rating'=>5,
-        'comment'=>''
+        'rating' => 5,
+        'comment' => ''
 
     ];
 
@@ -29,6 +30,25 @@ class CourseStatus extends Component
         $this->setAdvance();
     }
 
+
+
+    public function storeReview()
+    {
+        $this->validate([
+            'review.rating' => 'required',
+            'review.comment' => 'required'
+        ]);
+
+        Review::create([
+            'user_id' => auth()->id(),
+            'course_id' => $this->course->id,
+            'rating' => $this->review["rating"],
+            'comment' => $this->review["comment"]
+
+        ]);
+
+        $this->reset('review');
+    }
     public function updated($property, $value)
     {
         if ($property == 'completed') {

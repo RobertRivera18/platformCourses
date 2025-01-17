@@ -63,17 +63,20 @@ class User extends Authenticatable
         ];
     }
 
-    public function courses_enrolled(){
-        return $this->belongsToMany(Course::class,'course_user','user_id','course_id');
+    public function courses_enrolled()
+    {
+        return $this->belongsToMany(Course::class, 'course_user', 'user_id', 'course_id');
     }
 
     public function lessons()
-{
-    return $this->belongsToMany(Lesson::class, 'course_lesson_user')
-        ->withPivot(['course_id', 'current', 'completed'])
-        ->withTimestamps();
-}
+    {
+        return $this->belongsToMany(Lesson::class, 'course_lesson_user')
+            ->withPivot(['course_id', 'current', 'completed'])
+            ->withTimestamps();
+    }
 
-
-   
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

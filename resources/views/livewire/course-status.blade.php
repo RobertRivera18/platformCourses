@@ -135,8 +135,12 @@
                 </ul>
             </aside>
 
+
+            @can('review_enable', $course)
+
             <x-button wire:click="$set('review.open',true)" class="w-full flex justify-center">Calificar este Curso
             </x-button>
+            @endcan
         </div>
     </div>
 
@@ -151,7 +155,7 @@
                 ¿Como fue tu experiencia?
             </p>
 
-            <ul x-data="{rating:@entangle('review.rating')}"class="flex justify-center space-x-3 text-gray-600">
+            <ul x-data="{rating:@entangle('review.rating')}" class="flex justify-center space-x-3 text-gray-600">
                 <li>
                     <button x-on:click="rating =1">
                         <i class="fas fa-star text-2xl" x-bind:class="rating >=1 ? 'text-yellow-500':''"></i>
@@ -179,8 +183,16 @@
                     </button>
                 </li>
             </ul>
+
+            <x-textarea wire:model="review.comment" class="w-full mt-4" placeholder="Mensaje......."></x-textarea>
+
         </x-slot>
-        <x-slot name="footer"></x-slot>
+        <x-slot name="footer">
+
+            <x-button wire:click="storeReview">
+                Dejar Reseña
+            </x-button>
+        </x-slot>
 
     </x-dialog-modal>
 
