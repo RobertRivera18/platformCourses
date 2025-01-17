@@ -135,10 +135,8 @@
                 </ul>
             </aside>
 
-            <x-button  wire:click="$set('review.open',true)"
-            class="w-full flex justify-center"
-            >Calificar este Curso
-        </x-button>
+            <x-button wire:click="$set('review.open',true)" class="w-full flex justify-center">Calificar este Curso
+            </x-button>
         </div>
     </div>
 
@@ -146,9 +144,42 @@
 
     <x-dialog-modal wire:model="review.open">
         <x-slot name="title">
-            <h2>Tu opinion es importante!</h2>
+            <p class="text-3xl font-semibold text-center mt-4">Tu opinion es importante!</p>
         </x-slot>
-        <x-slot name="content"></x-slot>
+        <x-slot name="content">
+            <p class="text-center mb-4">
+                ¿Como fue tu experiencia?
+            </p>
+
+            <ul x-data="{rating:@entangle('review.rating')}"class="flex justify-center space-x-3 text-gray-600">
+                <li>
+                    <button x-on:click="rating =1">
+                        <i class="fas fa-star text-2xl" x-bind:class="rating >=1 ? 'text-yellow-500':''"></i>
+                    </button>
+                </li>
+
+                <li>
+                    <button x-on:click="rating =2">
+                        <i class="fas fa-star text-2xl" x-bind:class="rating >=2 ? 'text-yellow-500':''"></i>
+                    </button>
+                </li>
+                <li>
+                    <button x-on:click="rating =3">
+                        <i class="fas fa-star text-2xl" x-bind:class="rating >=3 ? 'text-yellow-500':''"></i>
+                    </button>
+                </li>
+                <li>
+                    <button x-on:click="rating =4">
+                        <i class="fas fa-star text-2xl" x-bind:class="rating >=4 ? 'text-yellow-500':''"></i>
+                    </button>
+                </li>
+                <li>
+                    <button x-on:click="rating =5">
+                        <i class="fas fa-star text-2xl" x-bind:class="rating >=5 ? 'text-yellow-500':''"></i>
+                    </button>
+                </li>
+            </ul>
+        </x-slot>
         <x-slot name="footer"></x-slot>
 
     </x-dialog-modal>
