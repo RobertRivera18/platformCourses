@@ -36,16 +36,16 @@
                     src="{{$review->user->profile_photo_url}}" alt="">
             </figure>
 
-            <div class="flex-1">
-                <p>{{$review->user->name}}</p>
+            <div class="flex-1 ">
+                <p class="font-bold">{{$review->user->name}}</p>
 
                 <div class="flex space-x-2 items-center">
                     <x-start rating="{{$review->rating}}" class="inline" />
-                    <p class="text-sm">
+                    <p class="font-normal text-sm ml-1">
                         {{$review->created_at->diffForHumans()}}
                     </p>
                 </div>
-                <div>
+                <div class="my-1 text-sm relative">
                     {{$review->comment}}
                 </div>
             </div>
