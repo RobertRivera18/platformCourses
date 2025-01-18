@@ -30,7 +30,8 @@
         @foreach ($reviews as $review)
         <li class="flex space-x-8">
             <figure class="shrink-0">
-                <img class="w-10 h-10 object-cover object-center" src="{{$review->user->profile_photo_url}}" alt="">
+                <img class="w-10 h-10 object-cover object-center rounded-full"
+                    src="{{$review->user->profile_photo_url}}" alt="">
             </figure>
 
             <div class="flex-1">
@@ -50,15 +51,15 @@
             <div class="shrink-0">
                 <x-dropdown>
                     <x-slot name="trigger">
-                        <i class="fas fa-ellipsis-v"></i>
+                        <i class="fas fa-ellipsis-v cursor-pointer"></i>
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link href="{{route('reviews.edit',$review)}}">
+                        <x-dropdown-link wire:click="edit({{$review}})">
                             Editar
                         </x-dropdown-link>
-                        <x-dropdown-link href="#" wire:click="destroy({{$review->id}})">
-                            Editar
+                        <x-dropdown-link wire:click="delete({{$review}})">
+                            Eliminar
                         </x-dropdown-link>'
                     </x-slot>
 
@@ -71,4 +72,55 @@
         </li>
         @endforeach
     </ul>
+
+
+    <x-dialog-modal wire:model="editReview.open">
+        <x-slot name="title">
+            <p class="text-3xl font-semibold text-center mt-4">Tu opinion es importante!</p>
+        </x-slot>
+        <x-slot name="content">
+            <p class="text-center mb-4">
+                ¿Como fue tu experiencia?
+            </p>
+
+            <ul x-data="{rating:@entangle('editReview.rating')}" class="flex justify-center space-x-3 text-gray-600">
+                <li>
+                    <button x-on:click="rating =1">
+                        <i class="fas fa-star text-2xl" x-bind:class="rating >=1 ? 'text-yellow-500':''"></i>
+                    </button>
+                </li>
+
+                <li>
+                    <button x-on:click="rating =2">
+                        <i class="fas fa-star text-2xl" x-bind:class="rating >=2 ? 'text-yellow-500':''"></i>
+                    </button>
+                </li>
+                <li>
+                    <button x-on:click="rating =3">
+                        <i class="fas fa-star text-2xl" x-bind:class="rating >=3 ? 'text-yellow-500':''"></i>
+                    </button>
+                </li>
+                <li>
+                    <button x-on:click="rating =4">
+                        <i class="fas fa-star text-2xl" x-bind:class="rating >=4 ? 'text-yellow-500':''"></i>
+                    </button>
+                </li>
+                <li>
+                    <button x-on:click="rating =5">
+                        <i class="fas fa-star text-2xl" x-bind:class="rating >=5 ? 'text-yellow-500':''"></i>
+                    </button>
+                </li>
+            </ul>
+
+            <x-textarea wire:model="editReview.comment" class="w-full mt-4" placeholder="Mensaje......."></x-textarea>
+
+        </x-slot>
+        <x-slot name="footer">
+
+            <x-button wire:click="update">
+                Actualizar Reseña
+            </x-button>
+        </x-slot>
+
+    </x-dialog-modal>
 </div>

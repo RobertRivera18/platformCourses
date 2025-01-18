@@ -52,7 +52,8 @@
                                     <ul>
                                         @foreach($section->lessons as $lesson)
                                         <li>
-                                            <a href="{{route('courses.status',[$course,$lesson])}}" class="flex" href="">
+                                            <a href="{{route('courses.status',[$course,$lesson])}}" class="flex"
+                                                href="">
                                                 <i class="far fa-play-circle text-blue-500 mt-0.5 mr-2"></i>
                                                 <span
                                                     class="font-semibold text-gray-600 hover:text-blue-800 text-sm">{{$lesson->name}}</span>
@@ -81,14 +82,16 @@
                 {{-- Descripcion del Curso --}}
                 <div>
                     <h2 class="text-lg font-semibold mb-4">Descripción</h2>
-                    <div>
+                    <div class="mb-4">
                         {!!$course->description!!}
                     </div>
                 </div>
 
+                @if ($course->reviews->count())
                 <div>
-                    @livewire('manage-reviews', ['course' => $course], key('manage-review'))
+                    @livewire('manage-reviews', ['course' => $course], key('manage-reviews'))
                 </div>
+                @endif
             </div>
 
             <div class="col-span-1 order-1 lg:order-2">
