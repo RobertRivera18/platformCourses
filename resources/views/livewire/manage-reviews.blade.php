@@ -11,19 +11,21 @@
 
         <div class="col-span-3">
             <ul>
-                @for ($i =5; $i>=1; $i--)
+                @for ($i = 5; $i >= 1; $i--)
                 <li class="flex items-center">
-                    <x-progress-bar
-                        width="{{round($course->reviews->where('rating',$i)->count() *100 / $course->reviews->count() ,2) }}"
-                        class="flex-1" />
-                    <x-start rating={{$i}} class="ml-4 mr-2" />
-                    <span class="w-16">
-                        {{round($course->reviews->where('rating',$i)->count() *100 / $course->reviews->count() ,2) }}%
-                    </span>
+                    @php
+                    $totalReviews = $course->reviews->count();
+                    $procentaje = $totalReviews > 0 ? round($course->reviews->where('rating', $i)->count() * 100 /
+                    $totalReviews, 2) : 0;
+                    @endphp
+                    <x-progress-bar width="{{ $procentaje }}" class="flex-1" />
+                    <x-start rating="{{ $i }}" class="ml-4 mr-2" />
+                    <span class="w-16">{{ $procentaje }}%</span>
                 </li>
                 @endfor
             </ul>
         </div>
+
     </div>
 
     <ul class="space-y-6">
@@ -48,6 +50,8 @@
                 </div>
             </div>
 
+
+            @if (auth()->check() && $review->user_id === auth()->id())
             <div class="shrink-0">
                 <x-dropdown>
                     <x-slot name="trigger">
@@ -60,14 +64,11 @@
                         </x-dropdown-link>
                         <x-dropdown-link wire:click="delete({{$review}})">
                             Eliminar
-                        </x-dropdown-link>'
+                        </x-dropdown-link>
                     </x-slot>
-
-
                 </x-dropdown>
             </div>
-
-
+            @endif
 
         </li>
         @endforeach
