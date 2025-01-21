@@ -88,6 +88,15 @@ $links=[
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 
+
+                            <x-dropdown-link href="{{ route('instructor.courses.index') }}">
+                                Instructor
+                            </x-dropdown-link>
+
+                            <x-dropdown-link href="{{ route('admin.dashboard') }}">
+                               Administrador
+                            </x-dropdown-link>
+
                             <x-dropdown-link href="{{ route('courses.myCourses') }}">
                                 Mis cursos
                             </x-dropdown-link>
@@ -188,6 +197,12 @@ $links=[
                 </x-responsive-nav-link>
                 <x-responsive-nav-link href="{{ route('courses.myCourses') }}" :active="request()->routeIs('courses.myCourses')">
                     Mis cursos
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('instructor.courses.index') }}" :active="request()->routeIs('instructor.courses.index')">
+                    Instructor
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('courses.myCourses') }}" :active="request()->routeIs('courses.myCourses')">
+                    Administrador
                 </x-responsive-nav-link>
 
 
