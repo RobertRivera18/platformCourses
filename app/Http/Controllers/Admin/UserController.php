@@ -60,7 +60,24 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|min:6|confirmed'
+        ]);
+        $user->name = $data['name'];
+        $user->email = $data["email"];
+        if ($data["password"]) {
+
+            $user->password = bcrypt($data["password"]);
+        }
+        $user->save();
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Usuario Actualizado',
+            'text' => 'El Usuario se ha actualizado Correctamente'
+        ]);
+        return redirect()->route('admin.users.edit', $user);
     }
 
     /**

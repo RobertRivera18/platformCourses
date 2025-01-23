@@ -58,6 +58,20 @@
     @stack('modals')
 
     @livewireScripts
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        Livewire.on('swall',data=>{
+           Swal.fire(data[0])  
+  })
+     
+    </script>
+
+    @if (session('swall'))
+    <script>
+        Swal.fire({!! json_encode(session('swal')) !!})
+    </script>
+        
+    @endif
 </body>
 
 </html>
