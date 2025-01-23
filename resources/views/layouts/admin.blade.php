@@ -1,5 +1,4 @@
-@props(['breadcrumb'=>[],
-'action'=>null
+@props(['breadcrumb'=>[]
 ])
 <!DOCTYPE html>
 <html lang="es">
@@ -36,7 +35,16 @@
 
         <div class="mt-14 space-y-2">
             <div class="flex items-center">
+
                 @include('layouts.includes.admin.breadcrumb')
+
+                @isset($action)
+                <div class="ml-auto">
+                    {{$action}}
+                </div>
+
+                @endisset
+
             </div>
             <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
                 {{$slot}}
