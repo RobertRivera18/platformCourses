@@ -15,6 +15,7 @@
         "livewire/livewire": "^3.0",
         "paypal/rest-api-sdk-php": "^1.6",
         "pbmedia/laravel-ffmpeg": "^8.5",
+        "rappasoft/laravel-livewire-tables": "^3.6",
         "spatie/laravel-permission": "^6.10"
     },
     "require-dev": {

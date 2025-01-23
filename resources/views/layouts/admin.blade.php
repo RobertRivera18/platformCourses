@@ -1,5 +1,6 @@
-
-@props(['breadcrumb'=>[]])
+@props(['breadcrumb'=>[],
+'action'=>null
+])
 <!DOCTYPE html>
 <html lang="es">
 
@@ -34,7 +35,9 @@
     <div class="p-4 sm:ml-64">
 
         <div class="mt-14 space-y-2">
-            @include('layouts.includes.admin.breadcrumb')
+            <div class="flex items-center">
+                @include('layouts.includes.admin.breadcrumb')
+            </div>
             <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
                 {{$slot}}
             </div>

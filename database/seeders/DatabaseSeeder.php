@@ -32,9 +32,9 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             LevelSeeder::class,
             PriceSeeder::class,
-            CourseSeeder::class
-
+            CourseSeeder::class,
+            PermissionSeeder::class,
+            RoleSeeder::class,
         ]);
-      
     }
 }
