@@ -58,7 +58,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('admin.users.edit', compact('user'));
+        
+        $roles = Role::all();
+
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -69,13 +72,19 @@ class UserController extends Controller
         $data = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|min:6|confirmed'
+            'password' => 'nullable|min:6|confirmed',
+            'roles'=>'nullable|array',
         ]);
         $user->name = $data['name'];
         $user->email = $data["email"];
         if ($data["password"]) {
 
             $user->password = bcrypt($data["password"]);
+        }
+
+
+        if(isset($data['roles'])){
+        $user->roles()->sync($data["roles"]);
         }
         $user->save();
         session()->flash('swal', [

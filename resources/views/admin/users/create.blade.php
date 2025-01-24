@@ -38,7 +38,7 @@
           @foreach ($roles as $role)
            <li>
             <label >
-              <x-checkbox  name="roles[]" value="{{$role->id}}" :checked="in_array($role->id,old('roles',[]))" />
+              <x-checkbox  name="roles[]" value="{{$role->id}}" :checked="in_array($role->id, old('roles',[]))" />
               {{$role->name}}
             </label>
            </li>

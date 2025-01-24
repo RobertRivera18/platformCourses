@@ -14,7 +14,14 @@ $links=[
  'name'=>'Usuarios',
  'icon'=>'fa-solid fa-users',
  'route'=>route('admin.users.index'),
- 'active'=>request()->routeIs('admin.users.index'),
+ 'active'=>request()->routeIs('admin.users.*'),
+],
+
+[ 
+ 'name'=>'Roles',
+ 'icon'=>'fa-solid fa-user-tag',
+ 'route'=>route('admin.roles.index'),
+ 'active'=>request()->routeIs('admin.roles.*'),
 ],
 
 [ 

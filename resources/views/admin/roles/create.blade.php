@@ -1,0 +1,56 @@
+<x-admin-layout :breadcrumb="[
+[
+  'name'=>'Dashboard',
+  'url'=>route('admin.dashboard')
+
+],
+[
+'name'=>'Usuarios',
+'url'=>route('admin.users.index')
+
+],
+[
+'name'=>'Roles',
+'url'=>route('admin.roles.index')
+
+],
+[
+'name'=>'Nuevo',
+
+],
+
+]">
+
+
+  <form action="{{route('admin.roles.store')}}" method="POST">
+    @csrf
+    <div class="card">
+      <div class="mb-4">
+        <x-label class="mb-1">Nombre del Rol</x-label>
+        <x-input name="name" class="w-full" />
+      </div>
+
+      <div class="mb-4">
+        <x-label class="mb-1">Permisos</x-label>
+        <ul>
+          @foreach ($permissions as $permission)
+           <li>
+            <label >
+              <x-checkbox  name="permissions[]" value="{{$permission->id}}" :checked="in_array($permission->id, old('permissions',[]))" />
+              {{$permission->name}}
+            </label>
+           </li>
+          @endforeach
+        </ul>
+      </div>
+
+      <div class="flex justify-end space-x-2">
+       <x-button>Guardar</x-button>
+       <x-danger-button>Eliminar</x-danger-button>
+      </div>
+    </div>
+
+  </form>
+
+
+</x-admin-layout>
