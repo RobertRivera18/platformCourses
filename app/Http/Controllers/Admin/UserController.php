@@ -35,7 +35,11 @@ class UserController extends Controller
             'password' => 'required|min:6|confirmed'
         ]);
 
-        User::create($data);
+        $user = User::create($data);
+        if (isset($data['roles'])) {
+
+            $user->roles()->sync($data['roles']);
+        }
         return redirect()->route('admin.users.index');
     }
 
