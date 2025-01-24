@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -21,7 +22,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        $roles = Role::all();
+        return view('admin.users.create', compact('roles'));
     }
 
     /**
@@ -89,6 +91,19 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        session()->flash('swal', [
+            'title' => "Usuario Eliminado",
+            'text' => "El Usuario se eliminó correctamente.",
+            'icon' => "success",
+            'showConfirmButton' => false,
+            'timer' => 1500,
+            'customClass' => [
+                'popup' => "minimalist-alert",
+                'title' => "minimalist-alert-title"
+            ]
+        ]);
+
+        return redirect()->route('admin.users.index');
     }
 }
