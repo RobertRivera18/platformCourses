@@ -88,7 +88,7 @@ class CourseController extends Controller
             if ($course->image_path) {
                 Storage::delete($course->image_path);
             }
-            $data['image_path'] = Storage::put('courses/image', $request->file('image'));
+            $data['image_path'] = Storage::put('public/courses/images', $request->file('image'));
         }
         $course->update($data);
         session()->flash('flash.banner', 'El curso se Actualizó con exito');

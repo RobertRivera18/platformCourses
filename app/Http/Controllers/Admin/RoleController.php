@@ -39,10 +39,17 @@ class RoleController extends Controller
         ]);
         $role = Role::create($data);
 
-        if(isset($data['permissions'])){
-           $role->permissions()->sync($data['permissions']);
+        if (isset($data['permissions'])) {
+            $role->permissions()->sync($data['permissions']);
         }
-        return redirect()->route('admin.roles.index');
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Rol Creado',
+            'text' => 'Se creo el rol de manera exitosa'
+
+
+        ]);
+        return redirect()->route('admin.roles.edit', $role);
     }
 
     /**
@@ -58,7 +65,8 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        return view('admin.roles.edit', compact('role'));
+        $permissions = Permission::all();
+        return view('admin.roles.edit', compact('role','permissions'));
     }
 
     /**
