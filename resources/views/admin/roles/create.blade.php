@@ -46,7 +46,6 @@
 
       <div class="flex justify-end space-x-2">
        <x-button>Guardar</x-button>
-       <x-danger-button>Eliminar</x-danger-button>
       </div>
     </div>
 

@@ -66,7 +66,7 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
         $permissions = Permission::all();
-        return view('admin.roles.edit', compact('role','permissions'));
+        return view('admin.roles.edit', compact('role', 'permissions'));
     }
 
     /**
@@ -74,7 +74,25 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|unique:roles,name,' . $role->name,
+            'permissions' => 'nullable||array'
+
+        ]);
+        $role->update($data);
+        if (isset($data['permissions'])) {
+            $role->permissions()->sync($data['permissions']);
+        } else {
+            $role->permissions()->detach();
+        }
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Rol Actualizado Correctamente',
+            'text' => 'Se actualizo el rol de manera exitosa'
+
+
+        ]);
+        return redirect()->route('admin.roles.edit', $role);
     }
 
     /**
@@ -82,6 +100,19 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        $role->delete();
+        session()->flash('swal', [
+            'title' => "Rol Eliminado",
+            'text' => "El Rol se eliminó correctamente.",
+            'icon' => "success",
+            'showConfirmButton' => false,
+            'timer' => 1500,
+            'customClass' => [
+                'popup' => "minimalist-alert",
+                'title' => "minimalist-alert-title"
+            ]
+        ]);
+
+        return redirect()->route('admin.roles.index');
     }
 }
