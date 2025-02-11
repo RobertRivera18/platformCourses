@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Spatie\Permission\Contracts\Permission;
+use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
@@ -13,7 +13,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.permissions.index');
     }
 
     /**
@@ -21,7 +21,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.permissions.create');
     }
 
     /**
@@ -29,7 +29,17 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|unique:permissions',
+
+        ]);
+        Permission::create($data);
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => '!Permiso Creado!',
+            'text' => 'El permiso se ha creado correctamente'
+        ]);
+        return redirect()->route('admin.permissions.index');
     }
 
     /**
@@ -37,7 +47,7 @@ class PermissionController extends Controller
      */
     public function show(Permission $permission)
     {
-        //
+        return view('admin.permissions.show', compact('permission'));
     }
 
     /**
@@ -45,7 +55,7 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission)
     {
-        //
+        return view('admin.permissions.edit', compact('permission'));
     }
 
     /**
@@ -53,7 +63,17 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|unique:permissions,name,' . $permission->id,
+        ]);
+        $permission->update($data);
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Permiso Actualizado Correctamente',
+            'text' => 'Se actualizo el permiso de manera exitosa'
+
+        ]);
+        return redirect()->route('admin.permissions.edit',$permission);
     }
 
     /**
@@ -61,6 +81,19 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission)
     {
-        //
+        $permission->delete();
+        session()->flash('swal', [
+            'title' => "Permiso Eliminado",
+            'text' => "El Permiso se eliminó correctamente.",
+            'icon' => "success",
+            'showConfirmButton' => false,
+            'timer' => 1500,
+            'customClass' => [
+                'popup' => "minimalist-alert",
+                'title' => "minimalist-alert-title"
+            ]
+        ]);
+
+        return redirect()->route('admin.permissions.index');
     }
 }

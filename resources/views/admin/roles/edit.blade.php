@@ -51,19 +51,19 @@
       </div>
     </div>
 
+  </form>
 
 
 
+  <form action="{{route('admin.roles.destroy',$role)}}" method="POST" id="deleteForm">
+    @method('DELETE')
+    @csrf
 
-    <form action="{{route('admin.roles.destroy',$role)}}" method="POST" id="deleteForm">
-      @method('DELETE')
-      @csrf
 
-
-    </form>
-    @push('js')
-    <script>
-      function confirmDelete(){
+  </form>
+  @push('js')
+  <script>
+    function confirmDelete(){
       Swal.fire({
   title: "¿Estás seguro?",
   text: "Esta acción no se puede deshacer.",
@@ -89,7 +89,7 @@
 
    }
 
-    </script>
-    @endpush
+  </script>
+  @endpush
 
 </x-admin-layout>

@@ -25,6 +25,14 @@ $links=[
 ],
 
 [ 
+ 'name'=>'Permisos',
+ 'icon'=>'fa-solid fa-key',
+ 'route'=>route('admin.permissions.index'),
+ 'active'=>request()->routeIs('admin.permissions.*'),
+],
+
+
+[ 
  'name'=>'Empresa',
  'icon'=>'fa-solid fa-building',
  'route'=>'#',
